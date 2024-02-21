@@ -17,16 +17,19 @@ import {
 import { initSketch } from './javascript/sketch.js'
 import GeneratorContainer from './javascript/GeneratorContainer.jsx'
 
-const config = {
-  modules: ['PlainColorBackground', 'Image']
-}
+import * as generator1 from './generators/generator1.js'
+import * as generator2 from './generators/generator2.js'
+import * as generator3 from './generators/generator3.js'
 
-setConfig(config)
+const generators = {
+  generator1,
+  generator2,
+  generator3
+}
 
 const props = {
   backgroundValue: getBackgroundValue(),
-  particlesValue: getParticlesValue(),
-  config
+  particlesValue: getParticlesValue()
 }
 
 const actions = {
@@ -38,6 +41,11 @@ const actions = {
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('reactComponentRoot')
+  const config = generators[container.dataset.generator]
+
+  props.config = config
+  setConfig(config)
+
   const root = createRoot(container)
   root.render(<GeneratorContainer {...props} {...actions} />)
 })
