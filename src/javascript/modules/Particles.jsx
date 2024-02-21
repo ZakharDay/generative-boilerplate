@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-export default class PlainColorBackground extends Component {
+export default class Particles extends Component {
   constructor(props) {
     super(props)
 
@@ -11,13 +11,13 @@ export default class PlainColorBackground extends Component {
   }
 
   handleInput = (e) => {
-    this.props.setBackgroundValue(e.target.value)
+    this.props.setParticlesValue(e.target.value)
     this.setState({ sliderValue: e.target.value })
   }
 
   render() {
     return (
-      <div className="PlainColorBackground">
+      <div className="Particles">
         <input
           type="range"
           min="0"

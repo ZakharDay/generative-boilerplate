@@ -1,13 +1,45 @@
-let sliderValue = 0
-let config = {}
+import {
+  getRandomArbitrary,
+  sample,
+  shuffle,
+  generateHash
+} from './utilities.js'
 
-function getSliderValue() {
-  return sliderValue
+let backgroundValue = 0
+
+let particlesValue = {
+  sliderValue: 0,
+  particles: []
 }
 
-function setSliderValue(nextValue) {
-  sliderValue = nextValue
-  console.log('setSliderValue', sliderValue)
+let config = {}
+
+function getBackgroundValue() {
+  return backgroundValue
+}
+
+function setBackgroundValue(nextValue) {
+  backgroundValue = nextValue
+}
+
+function getParticlesValue() {
+  return particlesValue
+}
+
+function setParticlesValue(nextValue) {
+  const particles = []
+
+  for (let index = 0; index < nextValue; index++) {
+    particles.push([
+      getRandomArbitrary(0, 255),
+      getRandomArbitrary(0, 600),
+      getRandomArbitrary(0, 600),
+      getRandomArbitrary(2, 20)
+    ])
+  }
+
+  particlesValue.sliderValue = nextValue
+  particlesValue.particles = particles
 }
 
 function getConfig() {
@@ -18,4 +50,11 @@ function setConfig(nextConfig) {
   config = nextConfig
 }
 
-export { getSliderValue, setSliderValue, getConfig, setConfig }
+export {
+  getBackgroundValue,
+  setBackgroundValue,
+  getParticlesValue,
+  setParticlesValue,
+  getConfig,
+  setConfig
+}

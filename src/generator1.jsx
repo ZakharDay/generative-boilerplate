@@ -4,28 +4,32 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 
 import {
-  getSliderValue,
-  setSliderValue,
+  getBackgroundValue,
+  setBackgroundValue,
+  getParticlesValue,
+  setParticlesValue,
+  getConfig,
   setConfig
 } from './javascript/store.js'
 
 import { initSketch } from './javascript/sketch.js'
-
 import GeneratorContainer from './javascript/GeneratorContainer.jsx'
 
 const config = {
-  modules: ['PlainColorBackground']
+  modules: ['PlainColorBackground', 'Particles']
 }
 
 setConfig(config)
 
 const props = {
-  sliderValue: getSliderValue(),
+  backgroundValue: getBackgroundValue(),
+  particlesValue: getParticlesValue(),
   config
 }
 
 const actions = {
-  setSliderValue,
+  setBackgroundValue,
+  setParticlesValue,
   initSketch
 }
 
