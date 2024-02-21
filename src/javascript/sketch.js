@@ -1,29 +1,33 @@
 import p5 from 'p5'
-import { getSliderValue } from './store.js'
+import { getSliderValue, getConfig } from './store.js'
 
 const canvasSize = 600
+let config = {}
 let canvasContainerId = ''
 
 function sketch(p) {
   p.setup = () => {
     const canvas = p.createCanvas(canvasSize, canvasSize)
     canvas.parent(canvasContainerId)
-    p.frameRate(6)
-    p.stroke(121, 255, 57)
+    p.frameRate(60)
     p.noFill()
     // p.fill(141)
   }
 
   p.draw = () => {
     const sliderValue = getSliderValue()
-    p.background(0)
-    p.fill(255)
-    p.rect(sliderValue, sliderValue, 50, 50)
+
+    if (config.modules.includes('PlainColorBackground')) {
+      p.background(parseInt(sliderValue))
+    } else {
+      p.background(0)
+    }
   }
 }
 
 function initSketch(id) {
   canvasContainerId = id
+  config = getConfig()
   new p5(sketch)
 }
 

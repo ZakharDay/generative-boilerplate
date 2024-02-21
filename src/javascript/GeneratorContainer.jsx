@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
+import PlainColorBackground from './modules/PlainColorBackground.jsx'
+
 export default class GeneratorContainer extends Component {
   constructor(props) {
     super(props)
@@ -10,21 +12,17 @@ export default class GeneratorContainer extends Component {
     this.props.initSketch('sketch')
   }
 
-  handleSliderInput = (e) => {
-    this.props.setSliderValue(e.target.value)
+  renderModules() {
+    if (this.props.config.modules.includes('PlainColorBackground')) {
+      return <PlainColorBackground setSliderValue={this.props.setSliderValue} />
+    }
   }
 
   render() {
     return (
       <div className="GeneratorContainer">
-        <input
-          type="range"
-          min="0"
-          max="600"
-          onInput={this.handleSliderInput}
-        />
-
         <div className="sketch" id="sketch"></div>
+        {this.renderModules()}
       </div>
     )
   }
