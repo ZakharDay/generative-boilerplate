@@ -9,7 +9,9 @@ const path = require('path')
 module.exports = {
   entry: {
     index: './src/index.js',
-    page: './src/page.jsx'
+    generator1: './src/generator1.jsx',
+    generator2: './src/generator2.jsx',
+    generator3: './src/generator3.jsx'
   },
   output: {
     filename: '[name].js',
@@ -88,9 +90,25 @@ module.exports = {
     new HtmlWebpackPlugin({
       hash: true,
       scriptLoading: 'blocking',
-      template: './src/pages/page.html',
-      filename: './pages/page.html',
-      chunks: ['page']
+      template: './src/generators/generator1.html',
+      filename: './generators/generator1.html',
+      chunks: ['generator1']
+    }),
+
+    new HtmlWebpackPlugin({
+      hash: true,
+      scriptLoading: 'blocking',
+      template: './src/generators/generator2.html',
+      filename: './generators/generator2.html',
+      chunks: ['generator2']
+    }),
+
+    new HtmlWebpackPlugin({
+      hash: true,
+      scriptLoading: 'blocking',
+      template: './src/generators/generator3.html',
+      filename: './generators/generator3.html',
+      chunks: ['generator3']
     }),
 
     // Partials
