@@ -8,6 +8,8 @@ import {
   setBackgroundValue,
   getParticlesValue,
   setParticlesValue,
+  getImageValue,
+  setImageValue,
   getConfig,
   setConfig
 } from './javascript/store.js'
@@ -16,7 +18,7 @@ import { initSketch } from './javascript/sketch.js'
 import GeneratorContainer from './javascript/GeneratorContainer.jsx'
 
 const config = {
-  modules: ['PlainColorBackground', 'Particles']
+  modules: ['PlainColorBackground', 'Particles', 'Image']
 }
 
 setConfig(config)
@@ -30,6 +32,7 @@ const props = {
 const actions = {
   setBackgroundValue,
   setParticlesValue,
+  setImageValue,
   initSketch
 }
 

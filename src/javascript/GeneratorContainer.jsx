@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 
 import PlainColorBackground from './modules/PlainColorBackground.jsx'
 import Particles from './modules/Particles.jsx'
+import Image from './modules/Image.jsx'
 
 export default class GeneratorContainer extends Component {
   constructor(props) {
@@ -34,6 +35,12 @@ export default class GeneratorContainer extends Component {
             setParticlesValue={this.props.setParticlesValue}
             key={index}
           />
+        )
+      }
+
+      if (moduleName == 'Image') {
+        modules.push(
+          <Image setImageValue={this.props.setImageValue} key={index} />
         )
       }
     })

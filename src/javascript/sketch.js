@@ -5,6 +5,8 @@ import {
   setBackgroundValue,
   getParticlesValue,
   setParticlesValue,
+  getImageValue,
+  setImageValue,
   getConfig,
   setConfig
 } from './store.js'
@@ -19,14 +21,23 @@ import {
 const canvasSize = 600
 let config = {}
 let canvasContainerId = ''
+let images = {}
 
 function sketch(p) {
+  p.preload = () => {
+    const imageFiles = getImageValue().images
+
+    Object.keys(imageFiles).forEach((key) => {
+      images = Object.assign({}, images, {
+        [`${key}`]: p.loadImage(imageFiles[key])
+      })
+    })
+  }
+
   p.setup = () => {
     const canvas = p.createCanvas(canvasSize, canvasSize)
     canvas.parent(canvasContainerId)
     p.frameRate(60)
-    // p.noFill()
-    // p.fill(141)
   }
 
   p.draw = () => {
@@ -49,6 +60,24 @@ function sketch(p) {
           particlesValue.particles[index][3]
         )
       }
+    }
+
+    if (config.modules.includes('Image')) {
+      const { current } = getImageValue()
+      const image = images[current]
+
+      p.image(
+        image,
+        (canvasSize - image.width / 2) / 2,
+        (canvasSize - image.height / 2) / 2,
+        image.width / 2,
+        image.height / 2,
+        0,
+        0,
+        image.width,
+        image.height,
+        p.CONTAIN
+      )
     }
   }
 }

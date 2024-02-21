@@ -2,7 +2,8 @@ import {
   getRandomArbitrary,
   sample,
   shuffle,
-  generateHash
+  generateHash,
+  importAll
 } from './utilities.js'
 
 let backgroundValue = 0
@@ -10,6 +11,15 @@ let backgroundValue = 0
 let particlesValue = {
   sliderValue: 0,
   particles: []
+}
+
+const images = importAll(
+  require.context('../images', false, /\.(png|jpe?g|svg)$/)
+)
+
+let imageValue = {
+  images: images,
+  current: sample(Object.keys(images))
 }
 
 let config = {}
@@ -42,6 +52,14 @@ function setParticlesValue(nextValue) {
   particlesValue.particles = particles
 }
 
+function getImageValue() {
+  return imageValue
+}
+
+function setImageValue() {
+  imageValue.current = sample(Object.keys(images))
+}
+
 function getConfig() {
   return config
 }
@@ -55,6 +73,8 @@ export {
   setBackgroundValue,
   getParticlesValue,
   setParticlesValue,
+  getImageValue,
+  setImageValue,
   getConfig,
   setConfig
 }
