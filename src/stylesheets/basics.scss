@@ -21,17 +21,17 @@ body {
     margin: 0 10px;
   }
 
-  .image {
-    &#bgPNG {
-      background-image: url('images/image.png');
-    }
+  // .image {
+  //   &#bgPNG {
+  //     background-image: url('images/image.png');
+  //   }
 
-    &#bgJPG {
-      background-image: url('images/image.jpg');
-    }
+  //   &#bgJPG {
+  //     background-image: url('images/image.jpg');
+  //   }
 
-    &#bgSVG {
-      background-image: url('images/image.svg');
-    }
-  }
+  //   &#bgSVG {
+  //     background-image: url('images/image.svg');
+  //   }
+  // }
 }

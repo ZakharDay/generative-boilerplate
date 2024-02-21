@@ -4,14 +4,14 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 
 import {
-  getBackgroundValue,
-  setBackgroundValue,
-  getParticlesValue,
-  setParticlesValue,
-  getImageValue,
-  setImageValue,
-  getConfig,
-  setConfig
+  initStore,
+  getModuleList,
+  getPlainColorBackgroundStore,
+  setPlainColorBackgroundStore,
+  getParticlesStore,
+  setParticlesStore,
+  getImageStore,
+  setImageStore
 } from './javascript/store.js'
 
 import { initSketch } from './javascript/sketch.js'
@@ -27,24 +27,37 @@ const generators = {
   generator3
 }
 
-const props = {
-  backgroundValue: getBackgroundValue(),
-  particlesValue: getParticlesValue()
-}
-
 const actions = {
-  setBackgroundValue,
-  setParticlesValue,
-  setImageValue,
+  setPlainColorBackgroundStore,
+  setParticlesStore,
+  setImageStore,
   initSketch
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('reactComponentRoot')
-  const config = generators[container.dataset.generator]
+  const generatorName = container.dataset.generator
+  const config = generators[generatorName]
 
-  props.config = config
-  setConfig(config)
+  initStore(generatorName)
+
+  const props = {
+    moduleList: getModuleList()
+  }
+
+  config.modules.forEach((moduleName) => {
+    if (moduleName == 'PlainColorBackground') {
+      props.plainColorBackground = getPlainColorBackgroundStore()
+    }
+
+    if (moduleName == 'Particles') {
+      props.particles = getParticlesStore()
+    }
+
+    if (moduleName == 'Image') {
+      props.image = getImageStore()
+    }
+  })
 
   const root = createRoot(container)
   root.render(<GeneratorContainer {...props} {...actions} />)

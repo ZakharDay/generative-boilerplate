@@ -1,3 +1,9 @@
 const modules = ['PlainColorBackground', 'Particles', 'Image']
 
-export { modules }
+const preset = {
+  PlainColorBackground: { sliderValue: 100 },
+  Particles: { sliderValue: 100 },
+  Image: {}
+}
+
+export { modules, preset }

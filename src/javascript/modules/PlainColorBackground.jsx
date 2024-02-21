@@ -11,7 +11,7 @@ export default class PlainColorBackground extends Component {
   }
 
   handleInput = (e) => {
-    this.props.setBackgroundValue(e.target.value)
+    this.props.setSliderValue(e.target.value)
     this.setState({ sliderValue: e.target.value })
   }
 

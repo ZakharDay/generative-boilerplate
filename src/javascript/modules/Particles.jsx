@@ -11,7 +11,7 @@ export default class Particles extends Component {
   }
 
   handleInput = (e) => {
-    this.props.setParticlesValue(e.target.value)
+    this.props.setSliderValue(e.target.value)
     this.setState({ sliderValue: e.target.value })
   }
 

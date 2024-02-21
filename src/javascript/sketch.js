@@ -1,14 +1,10 @@
 import p5 from 'p5'
 
 import {
-  getBackgroundValue,
-  setBackgroundValue,
-  getParticlesValue,
-  setParticlesValue,
-  getImageValue,
-  setImageValue,
-  getConfig,
-  setConfig
+  getModuleList,
+  getPlainColorBackgroundStore,
+  getParticlesStore,
+  getImageStore
 } from './store.js'
 
 import {
@@ -19,19 +15,21 @@ import {
 } from './utilities.js'
 
 const canvasSize = 600
-let config = {}
+let moduleList = {}
 let canvasContainerId = ''
 let images = {}
 
 function sketch(p) {
   p.preload = () => {
-    const imageFiles = getImageValue().images
+    if (moduleList.includes('Image')) {
+      const imageFiles = getImageStore().images
 
-    Object.keys(imageFiles).forEach((key) => {
-      images = Object.assign({}, images, {
-        [`${key}`]: p.loadImage(imageFiles[key])
+      Object.keys(imageFiles).forEach((key) => {
+        images = Object.assign({}, images, {
+          [`${key}`]: p.loadImage(imageFiles[key])
+        })
       })
-    })
+    }
   }
 
   p.setup = () => {
@@ -41,29 +39,29 @@ function sketch(p) {
   }
 
   p.draw = () => {
-    const backgroundValue = getBackgroundValue()
-    const particlesValue = getParticlesValue()
-
-    if (config.modules.includes('PlainColorBackground')) {
-      p.background(parseInt(backgroundValue))
+    if (moduleList.includes('PlainColorBackground')) {
+      const plainColorBackground = getPlainColorBackgroundStore()
+      p.background(parseInt(plainColorBackground.sliderValue))
     } else {
       p.background(0)
     }
 
-    if (config.modules.includes('Particles')) {
-      for (let index = 0; index < particlesValue.sliderValue; index++) {
-        p.fill(particlesValue.particles[index][0])
+    if (moduleList.includes('Particles')) {
+      const particles = getParticlesStore()
+
+      for (let index = 0; index < particles.sliderValue; index++) {
+        p.fill(particles.particles[index][0])
 
         p.ellipse(
-          particlesValue.particles[index][1],
-          particlesValue.particles[index][2],
-          particlesValue.particles[index][3]
+          particles.particles[index][1],
+          particles.particles[index][2],
+          particles.particles[index][3]
         )
       }
     }
 
-    if (config.modules.includes('Image')) {
-      const { current } = getImageValue()
+    if (moduleList.includes('Image')) {
+      const { current } = getImageStore()
       const image = images[current]
 
       p.image(
@@ -84,7 +82,7 @@ function sketch(p) {
 
 function initSketch(id) {
   canvasContainerId = id
-  config = getConfig()
+  moduleList = getModuleList()
   new p5(sketch)
 }
 

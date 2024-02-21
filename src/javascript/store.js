@@ -6,40 +6,54 @@ import {
   importAll
 } from './utilities.js'
 
-let backgroundValue = 0
+import * as generator1 from '../generators/generator1.js'
+import * as generator2 from '../generators/generator2.js'
+import * as generator3 from '../generators/generator3.js'
 
-let particlesValue = {
-  sliderValue: 0,
-  particles: []
+const generators = {
+  generator1,
+  generator2,
+  generator3
 }
 
-const images = importAll(
-  require.context('../images', false, /\.(png|jpe?g|svg)$/)
-)
+let moduleList,
+  modulePlainColorBackgroundStore,
+  moduleParticlesStore,
+  moduleImageStore
 
-let imageValue = {
-  images: images,
-  current: sample(Object.keys(images))
+function initStore(generatorName) {
+  moduleList = generators[generatorName].modules
+
+  moduleList.forEach((moduleName) => {
+    if (moduleName == 'PlainColorBackground') {
+      modulePlainColorBackgroundStore =
+        generators[generatorName].preset['PlainColorBackground']
+    }
+
+    if (moduleName == 'Particles') {
+      moduleParticlesStore = initParticles(
+        generators[generatorName].preset['Particles']
+      )
+    }
+
+    if (moduleName == 'Image') {
+      // moduleImageStore = generators[generatorName].preset['Image']
+      moduleImageStore = initImages()
+    }
+  })
 }
 
-let config = {}
-
-function getBackgroundValue() {
-  return backgroundValue
+function initParticles(preset) {
+  return {
+    sliderValue: preset.sliderValue,
+    particles: generateParticles(preset.sliderValue)
+  }
 }
 
-function setBackgroundValue(nextValue) {
-  backgroundValue = nextValue
-}
-
-function getParticlesValue() {
-  return particlesValue
-}
-
-function setParticlesValue(nextValue) {
+function generateParticles(quantity) {
   const particles = []
 
-  for (let index = 0; index < nextValue; index++) {
+  for (let index = 0; index < quantity; index++) {
     particles.push([
       getRandomArbitrary(0, 255),
       getRandomArbitrary(0, 600),
@@ -48,33 +62,58 @@ function setParticlesValue(nextValue) {
     ])
   }
 
-  particlesValue.sliderValue = nextValue
-  particlesValue.particles = particles
+  return particles
 }
 
-function getImageValue() {
-  return imageValue
+function initImages() {
+  const images = importAll(
+    require.context('../images', false, /\.(png|jpe?g|svg)$/)
+  )
+
+  return {
+    images: images,
+    current: sample(Object.keys(images))
+  }
 }
 
-function setImageValue() {
-  imageValue.current = sample(Object.keys(images))
+function getModuleList() {
+  return moduleList
 }
 
-function getConfig() {
-  return config
+function getPlainColorBackgroundStore() {
+  return modulePlainColorBackgroundStore
 }
 
-function setConfig(nextConfig) {
-  config = nextConfig
+function setPlainColorBackgroundStore(nextSliderValue) {
+  modulePlainColorBackgroundStore.sliderValue = nextSliderValue
+}
+
+function getParticlesStore() {
+  return moduleParticlesStore
+}
+
+function setParticlesStore(nextSliderValue) {
+  moduleParticlesStore = {
+    sliderValue: nextSliderValue,
+    particles: generateParticles(nextSliderValue)
+  }
+}
+
+function getImageStore() {
+  return moduleImageStore
+}
+
+function setImageStore() {
+  moduleImageStore.current = sample(Object.keys(moduleImageStore.images))
 }
 
 export {
-  getBackgroundValue,
-  setBackgroundValue,
-  getParticlesValue,
-  setParticlesValue,
-  getImageValue,
-  setImageValue,
-  getConfig,
-  setConfig
+  initStore,
+  getModuleList,
+  getPlainColorBackgroundStore,
+  setPlainColorBackgroundStore,
+  getParticlesStore,
+  setParticlesStore,
+  getImageStore,
+  setImageStore
 }
